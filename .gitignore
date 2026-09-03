@@ -1,0 +1,40 @@
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+auth/
+
+# Backups, bancos e logs
+*.sql
+*.dump
+*.backup
+*.sqlite
+*.db
+backups/
+*.log
+logs/
+
+# Arquivos temporários e ambientes locais
+tmp/
+*.pid
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+
+# Pacotes gerados
+*.zip
+*.tar
+*.tar.gz
+*.tgz
