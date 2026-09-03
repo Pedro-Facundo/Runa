@@ -11,10 +11,13 @@ Prioridades:
 - infraestrutura local e híbrida;
 - isolamento de serviços;
 - persistência estruturada;
-- backups;
+- backups e recuperação;
 - supervisão de serviços;
 - testes de saúde;
-- recuperação segura após falhas.
+- hardening progressivo;
+- validação recorrente de recuperação.
+
+A base de backup e recuperação da Runa já possui validações reais. O trabalho restante está concentrado em hardening, retenção segura, desempenho e cobertura de testes.
 
 ## Núcleo conversacional
 
@@ -26,8 +29,9 @@ Prioridades:
 - criação e consulta de tarefas;
 - agenda e lembretes;
 - confirmação de ações sensíveis;
-- prevenção de duplicidades;
 - continuidade de contexto;
+- correlação correta entre entrada, ação e resposta;
+- prevenção de duplicidades;
 - respostas mais naturais após automações.
 
 ## Identidade, autorização e segurança
@@ -41,11 +45,26 @@ Prioridades:
 - permissões por contexto;
 - auditoria;
 - confirmação de operações sensíveis;
+- tratamento contextual de relações e apelidos;
 - políticas antes da execução de ações.
+
+## Família e múltiplos usuários
+
+**Estado:** parcialmente implementado e em consolidação
+
+Prioridades:
+
+- contexto separado por pessoa;
+- relações familiares;
+- agenda individual e compartilhada;
+- apelidos contextuais;
+- permissões diferentes por interlocutor;
+- distinção entre relação conhecida e acesso autorizado;
+- regras claras para informação privada e compartilhada.
 
 ## Memória persistente
 
-**Estado:** planejado
+**Estado:** próxima grande frente funcional
 
 Prioridades:
 
@@ -56,7 +75,28 @@ Prioridades:
 - distinção entre memória e compromisso;
 - aliases contextuais;
 - conhecimento interligado;
-- Obsidian como camada complementar de memória associativa.
+- Obsidian como camada complementar de memória associativa e conhecimento humano-legível.
+
+A memória transacional e as permissões continuarão em armazenamento estruturado. A camada Obsidian não deve substituir o banco operacional.
+
+## Voz e multimodalidade
+
+**Estado:** planejado, com voz priorizada após o MVP de memória
+
+Primeira prioridade multimodal:
+
+- receber áudio;
+- transcrever com Whisper;
+- encaminhar a transcrição ao mesmo núcleo usado por mensagens de texto;
+- preservar identidade, contexto, autorização e prevenção de duplicidade.
+
+Etapas posteriores:
+
+- interpretação de imagens;
+- documentos;
+- OCR quando necessário;
+- síntese de voz;
+- persona vocal consistente.
 
 ## Financeiro pessoal
 
@@ -70,51 +110,39 @@ Prioridades:
 - edição e exclusão controladas;
 - resumos e relatórios.
 
-## Multimodalidade
+## Policy Engine
 
 **Estado:** planejado
 
 Prioridades:
 
-- áudio;
-- transcrição;
-- interpretação de imagens;
-- documentos;
-- OCR quando necessário;
-- síntese de voz.
+- identidade do solicitante;
+- recurso afetado;
+- nível de risco;
+- autorização;
+- necessidade de confirmação;
+- simulação versus execução;
+- dados permitidos na resposta.
 
-## Família e múltiplos usuários
+## Observabilidade, Recovery e autorrecuperação
 
-**Estado:** planejado e parcialmente explorado
+**Estado:** base de Recovery validada, evolução contínua
 
-Prioridades:
-
-- contexto separado por pessoa;
-- relações familiares;
-- agenda individual e compartilhada;
-- apelidos contextuais;
-- permissões diferentes por interlocutor;
-- regras claras para informação privada e compartilhada.
-
-## Observabilidade e recuperação
-
-**Estado:** parcialmente implementado
-
-Prioridades:
+A camada de Recovery, ordem e prevenção de efeitos duplicados já possui uma base validada. A evolução continua em:
 
 - health checks mais completos;
 - classificação de falhas;
 - histórico de disponibilidade;
 - alertas relevantes;
 - recuperação controlada;
-- prevenção de reprocessamento duplicado;
-- fallback entre recursos locais e externos.
+- fallback entre recursos locais e externos;
+- diagnóstico e relatórios de saúde.
 
 ## Voz, persona e casa inteligente
 
 **Estado:** planejado
 
-Prioridades:
+Prioridades de longo prazo:
 
 - identidade de voz consistente;
 - respostas faladas;
@@ -127,6 +155,13 @@ Prioridades:
 **Estado:** planejado
 
 A Runa poderá futuramente usar históricos e padrões para antecipar necessidades, sugerir ações e criar lembretes preventivos. Previsões deverão continuar explicáveis, separando fatos observados, estimativas e recomendações.
+
+## Sequência atual em alto nível
+
+1. consolidar regressões do núcleo conversacional, agenda, identidade e permissões;
+2. iniciar o MVP de memória persistente com Obsidian;
+3. iniciar o MVP de voz com Whisper;
+4. expandir multimodalidade, políticas e comportamento proativo gradualmente.
 
 ## Direção de longo prazo
 
