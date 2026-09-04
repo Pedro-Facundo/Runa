@@ -21,7 +21,7 @@ A base de backup e recuperação da Runa já possui validações reais. O trabal
 
 ## Núcleo conversacional
 
-**Estado:** em desenvolvimento
+**Estado:** em desenvolvimento, com hardening pós-regressão validado
 
 Prioridades:
 
@@ -33,6 +33,8 @@ Prioridades:
 - correlação correta entre entrada, ação e resposta;
 - prevenção de duplicidades;
 - respostas mais naturais após automações.
+
+A regressão recente confirmou o funcionamento de tarefas e da idempotência financeira e resultou em correções pontuais no tratamento de exclusão de lembretes por data/hora e no reconhecimento de variantes naturais de comandos de memória. Esses cenários passaram a integrar a validação do núcleo, sem alterar a arquitetura pública do projeto.
 
 ## Identidade, autorização e segurança
 
@@ -158,7 +160,7 @@ A Runa poderá futuramente usar históricos e padrões para antecipar necessidad
 
 ## Sequência atual em alto nível
 
-1. consolidar regressões do núcleo conversacional, agenda, identidade e permissões;
+1. concluir a regressão externa controlada de integrações e consolidar os problemas conhecidos de família/grafo e edição de lembretes;
 2. iniciar o MVP de memória persistente com Obsidian;
 3. iniciar o MVP de voz com Whisper;
 4. expandir multimodalidade, políticas e comportamento proativo gradualmente.
