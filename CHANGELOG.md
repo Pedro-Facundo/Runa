@@ -19,3 +19,12 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 - Obsidian incluído como direção planejada para memória associativa;
 - multimodalidade, voz e casa inteligente mantidas no roadmap de longo prazo;
 - observabilidade, autorização e recuperação continuam como prioridades estruturais.
+
+### Hardening do núcleo conversacional
+
+- regressão ampliada separou falhas reais de falsos positivos da suíte de testes;
+- tarefas e idempotência financeira foram reconfirmadas sem regressão funcional;
+- corrigido o tratamento de exclusão de lembretes identificados por data e hora em determinadas construções de linguagem natural;
+- ampliado o reconhecimento de variantes naturais de comandos explícitos de memória, preservando deduplicação;
+- validação de negócio fim a fim e diagnóstico do estágio real da falha passam a orientar correções antes de mudanças arquiteturais;
+- permanecem em consolidação os cenários de família/grafo, edição de lembretes e validações externas controladas.
