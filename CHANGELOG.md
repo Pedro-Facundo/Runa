@@ -9,9 +9,11 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 - primeiro estágio observacional do Runtime implantado e estabilizado;
 - execuções passaram a possuir correlação técnica interna para melhorar diagnóstico ponta a ponta;
 - o tracing permanece em modo observacional e não muda autorização, decisão de negócio ou conteúdo exibido ao usuário;
-- regressão pós-implantação confirmou estabilidade das capacidades cobertas e cleanup dos dados de teste;
-- próximo estágio definido: Execution Ledger em shadow mode, com metadados mínimos e sem armazenar conteúdo privado desnecessário;
-- Capability Registry e Policy Engine continuam em adoção progressiva, depois da fundação observacional.
+- Execution Ledger dedicado também foi implantado em `shadow mode`;
+- o Ledger registra somente eventos técnicos comprováveis e metadados mínimos, sem depender do conteúdo integral das mensagens;
+- smoke de implantação confirmou que o Ledger permanece invisível ao usuário e não introduz novas mutações de negócio;
+- tracing e Ledger passam a formar a nova fundação observacional para as próximas trust boundaries, Registry e Policy Engine;
+- Capability Registry e Policy Engine continuam em adoção progressiva, depois da estabilização do baseline observacional.
 
 ### Identidade e segurança
 
@@ -34,7 +36,7 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 - arquitetura pública simplificada;
 - roadmap e visão revisados;
 - posição de direitos autorais e uso comercial documentada;
-- nova página `docs/STATUS.md` criada para refletir o estado público mais recente.
+- página `docs/STATUS.md` mantida como resumo público do estado mais recente.
 
 ### Direção técnica
 
@@ -42,7 +44,7 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 - Obsidian incluído como direção planejada para memória associativa;
 - multimodalidade, voz e casa inteligente mantidas no roadmap de longo prazo;
 - observabilidade, autorização e recuperação continuam como prioridades estruturais;
-- ordem arquitetural atualizada para tracing, Execution Ledger, Registry/Policy e primeira capability governada antes das expansões mais sensíveis.
+- ordem arquitetural atualizada para tracing + Execution Ledger, trust boundaries, Registry/Policy e primeira capability governada antes das expansões mais sensíveis.
 
 ### Hardening do núcleo conversacional
 

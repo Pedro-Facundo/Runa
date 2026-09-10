@@ -8,9 +8,9 @@ O projeto nasceu com foco em uso pessoal e operação local ou híbrida. A ideia
 
 A Runa está em desenvolvimento ativo.
 
-Um primeiro marco do Runtime observacional já foi implantado: as execuções agora podem receber correlação técnica estável para melhorar rastreabilidade e diagnóstico sem mudar o comportamento funcional entregue ao usuário.
+Dois marcos observacionais do Runtime já foram implantados: correlação técnica estável das execuções e um **Execution Ledger em shadow mode** para registrar eventos técnicos comprováveis com metadados mínimos.
 
-O próximo estágio é ampliar essa correlação com um **Execution Ledger em shadow mode**, registrando metadados mínimos do ciclo de execução antes que novas camadas passem a governar ações.
+Essas camadas aumentam rastreabilidade e diagnóstico sem governar autorização, decidir ações ou alterar o conteúdo funcional entregue ao usuário.
 
 O foco atual combina:
 
@@ -66,7 +66,7 @@ flowchart TD
     A --> O[Serviços externos opcionais]
 ```
 
-A arquitetura evolui gradualmente. O primeiro tracing é observacional; Capability Registry, Policy Engine e futuras ações governadas entram de forma progressiva depois de validação e comparação com o comportamento existente.
+A arquitetura evolui gradualmente. Tracing e Execution Ledger já operam de forma observacional; Capability Registry, Policy Engine e futuras ações governadas entram progressivamente depois de validação e comparação com o comportamento existente.
 
 A documentação pública mostra somente a arquitetura conceitual. Credenciais, identificadores reais, endereços de rede, dados pessoais, topologia de produção e detalhes operacionais permanecem fora deste repositório.
 

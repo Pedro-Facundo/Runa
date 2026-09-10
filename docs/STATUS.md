@@ -12,13 +12,15 @@ A Runa já possui uma base validada de persistência, mensageria, recuperação,
 
 ## Rastreabilidade do Runtime
 
-**Estado:** primeiro marco observacional implantado.
+**Estado:** tracing e Execution Ledger observacional implantados.
 
 A Runa passou a atribuir uma correlação técnica estável às execuções para permitir diagnóstico ponta a ponta sem mudar o comportamento funcional percebido pelo usuário.
 
-Esse primeiro estágio opera em modo observacional. Ele não concede autorização, não decide ações e não aparece nas mensagens do usuário.
+Além do tracing, o runtime agora possui um Execution Ledger dedicado em `shadow mode`. Ele registra somente eventos técnicos comprováveis e metadados mínimos, permitindo reconstruir partes do ciclo de uma execução sem depender do conteúdo integral das mensagens.
 
-O próximo passo é um Execution Ledger em shadow mode para registrar, com metadados mínimos, etapas comprováveis do ciclo de uma execução.
+Essas camadas permanecem observacionais. Elas não concedem autorização, não decidem ações, não substituem idempotência e não aparecem nas mensagens do usuário.
+
+A próxima etapa é estabilizar esse baseline pós-implantação e usá-lo como fundação para trust boundaries, Registry e Policy Engine.
 
 ## Núcleo conversacional
 
@@ -42,7 +44,7 @@ Também está em design uma futura reconciliação de múltiplos canais pertence
 
 ## Obrigações recorrentes
 
-**Estado:** em preparação privada, ainda não disponível como funcionalidade concluída.
+**Estado:** em desenvolvimento privado, ainda não disponível como funcionalidade concluída.
 
 O projeto está separando explicitamente:
 
@@ -67,7 +69,7 @@ Memória persistente seletiva, com uma camada de conhecimento interligado, conti
 
 ## Próxima sequência pública
 
-1. ampliar rastreabilidade com Execution Ledger em shadow;
+1. estabilizar o baseline pós-Execution Ledger e ampliar eventos somente quando houver fonte técnica comprovável;
 2. reforçar trust boundaries e identidade/autorização;
 3. introduzir Capability Registry e Policy Engine de forma gradual;
 4. validar uma primeira capability read-only governada;
