@@ -46,7 +46,7 @@ Prioridades:
 
 ## Runtime modular
 
-**Estado:** primeiro marco observacional implantado.
+**Estado:** tracing e Execution Ledger observacionais implantados.
 
 A Runa está evoluindo para descrever suas ações como capabilities com contratos explícitos. A adoção é progressiva para não reescrever a stack existente nem introduzir governança sem capacidade de diagnóstico.
 
@@ -56,21 +56,23 @@ A primeira camada de correlação técnica já foi implantada em modo observacio
 
 Ela permite acompanhar uma execução internamente sem mudar autorização, negócio ou conteúdo exibido ao usuário.
 
-### Próxima etapa: Execution Ledger
+### Etapa concluída: Execution Ledger
 
-O próximo estágio é registrar eventos causais mínimos em shadow mode.
+Um Execution Ledger dedicado também opera em shadow mode.
+
+Ele registra eventos causais mínimos apenas quando a etapa pode ser comprovada por uma fonte técnica adequada, usando metadados mínimos e sem transformar rastreabilidade em arquivo de conversas.
 
 Objetivos:
 
 - relacionar etapas comprováveis de uma mesma execução;
 - distinguir retry de nova ação;
 - ajudar a investigar respostas fora de contexto;
-- registrar falhas e estados sem depender de conteúdo privado integral;
+- registrar estados sem depender de conteúdo privado integral;
 - criar base para métricas de produto e futura governança.
 
 ### Capability Registry
 
-Depois da fundação de Ledger, a Runa passa a catalogar capabilities com risco, permissões, confirmação, idempotência e efeitos declarados.
+Depois da estabilização da fundação observacional, a Runa passa a catalogar capabilities com risco, permissões, confirmação, idempotência e efeitos declarados.
 
 ### Policy Engine
 
@@ -122,9 +124,9 @@ Prioridades:
 
 ## Obrigações e lembretes recorrentes
 
-**Estado:** em preparação privada.
+**Estado:** em desenvolvimento privado.
 
-A arquitetura está sendo preparada para representar obrigações futuras e recorrência sem confundir conceitos.
+A arquitetura representa obrigações futuras e recorrência sem confundir conceitos.
 
 Objetivos:
 
@@ -135,17 +137,17 @@ Objetivos:
 - meses com menos dias têm política explícita;
 - edição, pausa e cancelamento são rastreáveis.
 
-Essa capacidade ainda não deve ser tratada como funcionalidade concluída.
+Essa capacidade ainda não deve ser tratada como funcionalidade pública concluída.
 
 ## Rastreabilidade e observabilidade de produto
 
-**Estado:** tracing ativo; Ledger em preparação.
+**Estado:** tracing e Ledger ativos em modo observacional.
 
-Além de health checks e métricas da infraestrutura, a Runa passa a rastrear de forma segura o ciclo de uma solicitação.
+Além de health checks e métricas da infraestrutura, a Runa consegue correlacionar execuções e registrar eventos técnicos mínimos do ciclo de uma solicitação.
 
-Objetivos:
+Objetivos seguintes:
 
-- relacionar entrada, execução e resposta;
+- ampliar eventos somente quando houver fonte técnica comprovável;
 - melhorar diagnóstico de retries e recovery;
 - medir latência real das funções;
 - detectar respostas fora de contexto;
@@ -224,7 +226,7 @@ Prioridades:
 
 ## Observabilidade, Recovery e autorrecuperação
 
-**Estado:** Recovery validado, evolução contínua.
+**Estado:** Recovery validado, tracing + Ledger ativos, evolução contínua.
 
 A evolução continua em:
 
@@ -256,8 +258,8 @@ A Runa poderá usar históricos e padrões para antecipar necessidades, sugerir 
 
 ## Sequência atual em alto nível
 
-1. preservar Recovery e tracing já estabilizados;
-2. introduzir Execution Ledger em shadow mode;
+1. preservar Recovery, tracing e Execution Ledger já implantados;
+2. estabilizar o baseline observacional pós-Ledger;
 3. reforçar trust boundaries, identidade e autorização;
 4. executar Capability Registry e Policy Engine em shadow;
 5. promover uma capability read-only de baixo risco;
