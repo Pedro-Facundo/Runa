@@ -19,15 +19,43 @@ Este repositório não deve receber:
 - caminhos locais que revelem detalhes desnecessários da estrutura de produção;
 - exports de workflows contendo dados reais ou referências operacionais sensíveis.
 
+## Princípios de autorização
+
+A arquitetura da Runa separa interpretação, identidade e autorização.
+
+- linguagem natural não concede privilégio;
+- um modelo de IA não deve elevar o nível de acesso de um usuário;
+- confirmação de uma ação não substitui autorização para acessar o recurso;
+- relação familiar ou pessoal não concede acesso automático a dados de outra pessoa;
+- campos administrativos recebidos em payloads não são confiáveis apenas porque estão presentes;
+- integrações que transportam contexto privilegiado precisam provar sua origem por uma trust boundary autenticada;
+- quando a origem privilegiada não puder ser comprovada, o comportamento deve ser conservador.
+
+Os mecanismos concretos de autenticação usados no ambiente real não são publicados aqui.
+
+## Identidade multicanal
+
+Uma mesma pessoa pode futuramente usar mais de um canal ou número. A Runa não deve mesclar identidades automaticamente apenas porque encontrou nome, e-mail ou outro identificador coincidente.
+
+Reconciliações desse tipo devem exigir prova de posse, política explícita, proteção contra enumeração de contas, auditoria e estratégia de rollback.
+
+## Observabilidade com privacidade
+
+Tracing e futuros registros de execução devem armazenar somente os metadados necessários para diagnóstico e causalidade.
+
+O objetivo não é copiar conversas inteiras para logs. Sempre que um evento puder ser comprovado por identificadores, estado, timestamp e reason code, o conteúdo privado deve permanecer fora da telemetria.
+
 ## Princípio de publicação
 
-Documentação pública deve usar exemplos genéricos, nomes fictícios, identificadores de teste e diagramas de alto nível.
+Documentação pública usa exemplos genéricos, nomes fictícios, identificadores de teste e diagramas de alto nível.
 
-Quando um recurso técnico exigir credenciais, a documentação deve mostrar apenas o nome da variável ou do mecanismo de configuração, nunca o valor real.
+Quando um recurso técnico exigir credenciais, a documentação mostra apenas o conceito ou mecanismo de configuração necessário, nunca valores reais ou detalhes que facilitem exploração do ambiente.
 
 ## Repositório de produção
 
 Código de produção, workflows completos, scripts internos, configurações reais e histórico operacional são mantidos fora deste repositório público.
+
+Uma funcionalidade descrita como planejada, em preparação ou em validação privada não deve ser interpretada como disponível em produção.
 
 ## Relato de problema de segurança
 
