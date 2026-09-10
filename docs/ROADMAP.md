@@ -4,7 +4,7 @@ Este roadmap mostra apenas a direção pública do projeto. Datas, detalhes oper
 
 ## Fundação e infraestrutura
 
-**Estado:** avançado
+**Estado:** avançado.
 
 Prioridades:
 
@@ -16,13 +16,21 @@ Prioridades:
 - testes de saúde;
 - hardening progressivo;
 - validação recorrente de recuperação;
-- proteção progressiva contra exposição acidental de segredos em repositórios.
+- proteção progressiva contra exposição acidental de segredos.
 
-A base de backup e recuperação da Runa já possui validações reais. O trabalho restante está concentrado em hardening, retenção segura, desempenho e cobertura de testes.
+A base de backup e recuperação já possui validações reais. O trabalho restante se concentra em hardening, retenção segura, desempenho e cobertura de testes.
+
+## Recovery, ordem e idempotência
+
+**Estado:** base validada.
+
+A Runa já possui mecanismos para persistir mensagens, evitar duplicidades, retomar processamento e reenviar respostas sem repetir efeitos já concluídos.
+
+Essa fundação é preservada nas próximas etapas do Runtime.
 
 ## Núcleo conversacional
 
-**Estado:** em desenvolvimento, com hardening pós-regressão validado
+**Estado:** em desenvolvimento.
 
 Prioridades:
 
@@ -33,80 +41,111 @@ Prioridades:
 - continuidade de contexto;
 - correlação correta entre entrada, ação e resposta;
 - prevenção de duplicidades;
+- suporte a solicitações compostas;
 - respostas mais naturais após automações.
 
-## Runtime modular de capabilities
+## Runtime modular
 
-**Estado:** preparação arquitetural
+**Estado:** primeiro marco observacional implantado.
 
-A Runa está evoluindo para descrever suas ações como capabilities com contratos explícitos.
+A Runa está evoluindo para descrever suas ações como capabilities com contratos explícitos. A adoção é progressiva para não reescrever a stack existente nem introduzir governança sem capacidade de diagnóstico.
+
+### Etapa concluída: tracing observacional
+
+A primeira camada de correlação técnica já foi implantada em modo observacional.
+
+Ela permite acompanhar uma execução internamente sem mudar autorização, negócio ou conteúdo exibido ao usuário.
+
+### Próxima etapa: Execution Ledger
+
+O próximo estágio é registrar eventos causais mínimos em shadow mode.
 
 Objetivos:
 
-- evitar regras duplicadas entre diferentes interfaces;
-- separar interpretação, autorização e execução;
-- declarar risco, permissões, confirmação e efeitos de cada capacidade;
-- permitir migração gradual sem reescrever a stack existente;
-- fazer texto, voz e futuras modalidades utilizarem o mesmo núcleo de ações.
+- relacionar etapas comprováveis de uma mesma execução;
+- distinguir retry de nova ação;
+- ajudar a investigar respostas fora de contexto;
+- registrar falhas e estados sem depender de conteúdo privado integral;
+- criar base para métricas de produto e futura governança.
 
-A adoção será progressiva, começando em modo observacional antes de governar ações reais.
+### Capability Registry
+
+Depois da fundação de Ledger, a Runa passa a catalogar capabilities com risco, permissões, confirmação, idempotência e efeitos declarados.
+
+### Policy Engine
+
+Em seguida, decisões de autorização são comparadas em shadow mode antes de governar uma primeira capability read-only de baixo risco.
 
 ## Identidade, autorização e segurança
 
-**Estado:** em desenvolvimento
+**Estado:** em desenvolvimento.
 
 Prioridades:
 
-- identidade por interlocutor;
+- identidade por interlocutor e canal;
 - isolamento de dados;
 - permissões por contexto;
 - auditoria;
 - confirmação de operações sensíveis;
-- tratamento contextual de relações e apelidos;
-- políticas antes da execução de ações;
-- separação explícita entre confirmação e autorização.
+- tratamento contextual de relações e aliases;
+- separação entre confirmação e autorização;
+- trust boundaries autenticadas entre componentes privilegiados.
 
-## Policy Engine
+A IA pode ajudar a interpretar linguagem, mas permissões e decisões de risco permanecem determinísticas sempre que possível.
 
-**Estado:** promovido a frente estrutural
+## Identidade multicanal
 
-Prioridades:
+**Estado:** design em evolução.
 
-- identidade do solicitante;
-- capability solicitada;
-- recurso afetado;
-- proprietário e contexto de compartilhamento;
-- nível de risco;
-- autorização;
-- necessidade de confirmação;
-- simulação versus execução;
-- dados permitidos na resposta.
+Uma pessoa pode futuramente usar mais de um canal ou número sem perder continuidade. A reconciliação deve ser segura:
 
-A IA pode ajudar a interpretar linguagem, mas permissões e decisões de risco devem permanecer determinísticas sempre que possível.
+- nenhum merge automático apenas por nome ou identificador coincidente;
+- prova de posse dos canais;
+- política explícita;
+- prevenção de enumeração de contas;
+- conflitos de permissões ou integrações bloqueiam o merge até resolução;
+- rollback e auditoria fazem parte do desenho.
 
 ## Família e múltiplos usuários
 
-**Estado:** parcialmente implementado e em consolidação
+**Estado:** parcialmente implementado e em consolidação.
 
 Prioridades:
 
 - contexto separado por pessoa;
 - relações familiares;
 - agenda individual e compartilhada;
-- apelidos contextuais;
+- aliases contextuais;
 - permissões diferentes por interlocutor;
 - distinção entre relação conhecida e acesso autorizado;
 - regras claras para informação privada e compartilhada.
 
-## Rastreabilidade e observabilidade de produto
+## Obrigações e lembretes recorrentes
 
-**Estado:** preparação arquitetural
+**Estado:** em preparação privada.
 
-Além de health checks e métricas da infraestrutura, a Runa evolui para rastrear de forma segura o ciclo de uma solicitação.
+A arquitetura está sendo preparada para representar obrigações futuras e recorrência sem confundir conceitos.
 
 Objetivos:
 
-- relacionar entrada, interpretação, decisão, execução e resposta;
+- obrigação futura não vira gasto realizado antes da ocorrência;
+- lembrete recorrente não vira tarefa comum;
+- recorrência possui regra própria e materialização controlada;
+- retries não duplicam ocorrências;
+- meses com menos dias têm política explícita;
+- edição, pausa e cancelamento são rastreáveis.
+
+Essa capacidade ainda não deve ser tratada como funcionalidade concluída.
+
+## Rastreabilidade e observabilidade de produto
+
+**Estado:** tracing ativo; Ledger em preparação.
+
+Além de health checks e métricas da infraestrutura, a Runa passa a rastrear de forma segura o ciclo de uma solicitação.
+
+Objetivos:
+
+- relacionar entrada, execução e resposta;
 - melhorar diagnóstico de retries e recovery;
 - medir latência real das funções;
 - detectar respostas fora de contexto;
@@ -114,9 +153,11 @@ Objetivos:
 - medir atraso de lembretes;
 - evitar armazenar conteúdo privado além do necessário.
 
+OpenTelemetry pode ser avaliado no futuro, mas não é requisito da fundação atual.
+
 ## Memória persistente
 
-**Estado:** próxima grande frente funcional após o contrato de memória
+**Estado:** próxima grande frente funcional depois da fundação do Runtime.
 
 Prioridades:
 
@@ -132,18 +173,18 @@ Prioridades:
 - tratamento de conflitos e informações substituídas;
 - Obsidian como camada complementar de memória associativa e conhecimento humano-legível.
 
-A memória transacional e as permissões continuarão em armazenamento estruturado. A camada Obsidian não deve substituir o banco operacional.
+A memória transacional e as permissões continuam em armazenamento estruturado. A camada de conhecimento não substitui o banco operacional.
 
 ## Voz e multimodalidade
 
-**Estado:** planejado, com voz priorizada após o MVP de memória
+**Estado:** planejado, com voz priorizada após o MVP de memória.
 
 Primeira prioridade multimodal:
 
 - receber áudio;
-- transcrever com Whisper;
+- transcrever;
 - normalizar a entrada;
-- encaminhar a transcrição ao mesmo núcleo usado por mensagens de texto;
+- encaminhar a transcrição ao mesmo núcleo usado por texto;
 - preservar identidade, contexto, autorização, rastreabilidade e prevenção de duplicidade.
 
 Etapas posteriores:
@@ -154,9 +195,23 @@ Etapas posteriores:
 - síntese de voz;
 - persona vocal consistente.
 
+## Persona, Status e experiência
+
+**Estado:** em evolução.
+
+Prioridades:
+
+- identidade coerente em respostas normais, erros e estados degradados;
+- linguagem adequada ao contexto;
+- resultado operacional antes da composição narrativa;
+- informação funcional para usuário comum;
+- diagnóstico técnico somente para audiência administrativa autenticada;
+- suporte ao usuário sem compartilhamento automático de contexto privado;
+- futura continuidade da persona em voz e outras interfaces.
+
 ## Financeiro pessoal
 
-**Estado:** planejado
+**Estado:** em evolução e expansão planejada.
 
 Prioridades:
 
@@ -164,13 +219,14 @@ Prioridades:
 - categorização;
 - consultas por período;
 - edição e exclusão controladas;
-- resumos e relatórios.
+- resumos e relatórios;
+- integração futura com obrigações recorrentes sem confundir previsão com gasto realizado.
 
 ## Observabilidade, Recovery e autorrecuperação
 
-**Estado:** base de Recovery validada, evolução contínua
+**Estado:** Recovery validado, evolução contínua.
 
-A camada de Recovery, ordem e prevenção de efeitos duplicados já possui uma base validada. A evolução continua em:
+A evolução continua em:
 
 - health checks mais completos;
 - classificação de falhas;
@@ -179,44 +235,37 @@ A camada de Recovery, ordem e prevenção de efeitos duplicados já possui uma b
 - recuperação controlada;
 - fallback entre recursos locais e externos;
 - diagnóstico e relatórios de saúde;
-- rastreabilidade ponta a ponta das solicitações.
-
-## Persona e experiência
-
-**Estado:** em evolução
-
-Prioridades:
-
-- identidade coerente em respostas normais, erros e estados degradados;
-- linguagem adequada ao contexto;
-- composição de mensagens sem mascarar o resultado real da operação;
-- futura continuidade da persona em voz e outras interfaces.
+- rastreabilidade ponta a ponta.
 
 ## Casa inteligente
 
-**Estado:** planejado
+**Estado:** planejado.
 
 Prioridades de longo prazo:
 
 - integração com ambientes domésticos;
-- futura integração com Alexa e outras interfaces compatíveis;
+- interfaces compatíveis;
 - automações residenciais com autorização explícita;
 - contexto e privacidade adequados a ambientes compartilhados.
 
 ## Inteligência operacional preditiva
 
-**Estado:** planejado
+**Estado:** planejado.
 
-A Runa poderá futuramente usar históricos e padrões para antecipar necessidades, sugerir ações e criar lembretes preventivos. Previsões deverão continuar explicáveis, separando fatos observados, estimativas e recomendações.
+A Runa poderá usar históricos e padrões para antecipar necessidades, sugerir ações e criar lembretes preventivos. Previsões devem continuar explicáveis, separando fatos observados, estimativas e recomendações.
 
 ## Sequência atual em alto nível
 
-1. concluir a consolidação das regressões atuais de contexto, confirmação, identidade e integrações;
-2. introduzir contratos e rastreabilidade em modo observacional;
-3. validar uma primeira capability de baixo risco através da nova camada de políticas;
-4. fechar o contrato de memória e iniciar o MVP de memória persistente com Obsidian;
-5. iniciar o MVP de voz com Whisper usando o mesmo runtime;
-6. expandir multimodalidade, políticas e comportamento proativo gradualmente.
+1. preservar Recovery e tracing já estabilizados;
+2. introduzir Execution Ledger em shadow mode;
+3. reforçar trust boundaries, identidade e autorização;
+4. executar Capability Registry e Policy Engine em shadow;
+5. promover uma capability read-only de baixo risco;
+6. avançar memória persistente + conhecimento interligado;
+7. iniciar voz usando o mesmo runtime;
+8. expandir obrigações recorrentes, multimodalidade e automações proativas de forma gradual.
+
+Algumas frentes podem avançar em paralelo quando forem independentes e tiverem testes, rollback e gates próprios.
 
 ## Direção de longo prazo
 

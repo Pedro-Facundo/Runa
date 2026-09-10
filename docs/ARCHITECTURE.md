@@ -4,7 +4,7 @@ Este documento descreve a Runa em alto nível. Ele não representa a topologia r
 
 ## Visão geral
 
-A arquitetura é organizada em camadas para separar entrada, interpretação, identidade, autorização, memória, execução e observabilidade.
+A arquitetura é organizada em camadas para separar entrada, interpretação, identidade, autorização, memória, execução, resultado e observabilidade.
 
 ```mermaid
 flowchart LR
@@ -15,6 +15,8 @@ flowchart LR
     AI --> CAP[Capabilities]
     CAP --> POL[Políticas e autorização]
     POL --> AUTO[Execução]
+    AUTO --> RES[Resultado estruturado]
+    RES --> PER[Persona e resposta]
 
     C --> DATA[Dados estruturados]
     AUTO --> DATA
@@ -26,16 +28,19 @@ flowchart LR
     AI --> LOCAL[Modelos locais]
     AI --> EXT[Serviços externos opcionais]
 
-    N --> OBS[Observabilidade]
-    POL --> OBS
+    N --> OBS[Rastreabilidade]
     AUTO --> OBS
+    RES --> OBS
+    POL --> OBS
 ```
 
 ## Interface e normalização
 
-A camada de interface recebe solicitações do usuário. O projeto começou por mensageria, mas foi pensado para aceitar outras formas de interação no futuro, incluindo voz, imagens e documentos.
+A camada de interface recebe solicitações do usuário. O projeto começou por mensageria, mas foi pensado para aceitar outras modalidades no futuro, incluindo voz, imagens e documentos.
 
 Modalidades diferentes devem ser normalizadas antes de entrar no mesmo núcleo. Isso evita criar regras diferentes de segurança e execução para cada canal.
+
+A normalização também é uma fronteira importante de rastreabilidade. Uma execução pode receber um identificador técnico interno para permitir correlação sem alterar a experiência do usuário.
 
 ## Identidade e contexto
 
@@ -43,13 +48,29 @@ Antes de uma ação, a Runa precisa distinguir quem está falando, qual recurso 
 
 Relações pessoais conhecidas não significam automaticamente permissão para acessar dados de outra pessoa.
 
+Uma mesma pessoa pode futuramente usar múltiplos canais ou números. Isso não significa que dois cadastros devam ser mesclados automaticamente. Reconciliação de identidade exige prova de posse e política explícita, sem revelar a existência de outro cadastro para interlocutores não verificados.
+
+## Trust boundaries
+
+Dados recebidos de uma interface ou integração possuem níveis diferentes de confiança.
+
+Princípios:
+
+- linguagem natural não concede privilégio;
+- um modelo de IA não concede privilégio;
+- um campo em payload não deve ser tratado como administrativo apenas por estar presente;
+- componentes que transportam contexto privilegiado precisam autenticar sua origem;
+- ausência ou falha dessa autenticação deve resultar em tratamento conservador, não em elevação de acesso.
+
+Os mecanismos concretos usados em produção não são documentados neste repositório público.
+
 ## IA e interpretação
 
-A camada de IA transforma linguagem natural em intenção, extrai contexto e auxilia na geração de respostas. A arquitetura não deve depender obrigatoriamente de um único modelo.
+A camada de IA transforma linguagem natural em intenção, extrai contexto e auxilia na geração de respostas. A arquitetura não depende obrigatoriamente de um único modelo.
 
 Modelos locais são priorizados quando oferecem qualidade suficiente. Serviços externos podem atuar como capacidade complementar ou fallback quando apropriado.
 
-A IA pode auxiliar interpretação, mas decisões de autorização e confirmação de efeitos reais devem permanecer em camadas determinísticas sempre que possível.
+A IA pode ajudar a interpretar linguagem, mas decisões de autorização e confirmação de efeitos reais permanecem em camadas determinísticas sempre que possível.
 
 ## Capabilities
 
@@ -63,9 +84,12 @@ Uma capability pode declarar, em alto nível:
 - qual o nível de risco;
 - se precisa de confirmação;
 - se possui efeitos externos;
-- quais interfaces podem utilizá-la.
+- quais interfaces podem utilizá-la;
+- quais garantias de idempotência e recuperação possui.
 
 Essa abordagem permite que texto, voz e futuras interfaces compartilhem a mesma regra de execução.
+
+O Registry dessas capabilities entra gradualmente. O sistema primeiro observa e compara antes de permitir que essa camada governe ações reais.
 
 ## Políticas e autorização
 
@@ -73,15 +97,23 @@ A camada de políticas avalia identidade, recurso, risco, permissão e necessida
 
 Confirmação e autorização são conceitos diferentes. Um usuário confirmar uma ação não concede automaticamente acesso a um recurso para o qual não possui permissão.
 
+O Policy Engine será introduzido progressivamente, começando em shadow mode antes de governar uma capability de baixo risco.
+
 ## Dados estruturados
 
 Dados que exigem consistência, consulta objetiva e atualização transacional são armazenados em banco estruturado. Exemplos incluem agenda, tarefas, permissões, estados e registros operacionais.
 
+### Obrigações recorrentes
+
+Uma obrigação futura é conceitualmente diferente de um gasto já realizado e de uma tarefa comum.
+
+A arquitetura está sendo preparada para representar regras recorrentes de forma própria, materializando ocorrências quando necessário e preservando idempotência. Essa capacidade ainda está em validação privada e não deve ser interpretada como funcionalidade pública concluída.
+
 ## Memória e contexto
 
-Memória não é tratada como simples armazenamento de todas as conversas. O objetivo é selecionar o que realmente precisa permanecer disponível no longo prazo.
+Memória não é tratada como armazenamento indiscriminado de todas as conversas. O objetivo é selecionar o que realmente precisa permanecer disponível no longo prazo.
 
-Antes de persistir conhecimento durável, a arquitetura deve considerar proprietário, origem, visibilidade, sensibilidade, retenção e possíveis conflitos com informações anteriores.
+Antes de persistir conhecimento durável, a arquitetura considera proprietário, origem, visibilidade, sensibilidade, retenção e possíveis conflitos com informações anteriores.
 
 Uma camada de conhecimento interligado poderá complementar o banco estruturado e permitir relações mais naturais entre pessoas, projetos, eventos, decisões e aprendizados, sem substituir o banco operacional.
 
@@ -98,15 +130,45 @@ Princípios incluem:
 - exigir controles adicionais para operações sensíveis ou destrutivas;
 - manter possibilidade de rollback ou reconciliação quando aplicável.
 
-## Observabilidade
+## Resultado antes da persona
 
-A Runa deve ser capaz de perceber indisponibilidades, mudanças de estado e falhas relevantes. O objetivo é facilitar diagnóstico e recuperação sem transformar qualquer falha secundária em indisponibilidade completa do sistema.
+O resultado operacional deve existir antes da composição narrativa.
 
-Além da saúde da infraestrutura, a evolução inclui rastrear o ciclo de uma solicitação de forma segura, permitindo relacionar entrada, decisão, ação e resposta sem armazenar conteúdo privado desnecessário.
+Isso permite representar estados como sucesso, pendência, negação, falha, resultado parcial ou necessidade de reconciliação sem permitir que a persona modifique o que realmente aconteceu.
 
-## Persona
+A identidade narrativa altera a forma de comunicação, não a verdade operacional.
 
-A identidade narrativa da Runa é aplicada sobre o resultado real de uma operação. Ela pode alterar tom e linguagem, mas não pode transformar uma falha em sucesso nem esconder limitações importantes do usuário.
+## Observabilidade e rastreabilidade
+
+A Runa deve perceber indisponibilidades, mudanças de estado e falhas relevantes. O objetivo é facilitar diagnóstico e recuperação sem transformar falha secundária em indisponibilidade completa do sistema.
+
+### Primeiro estágio já ativo
+
+A arquitetura já possui um primeiro estágio de correlação técnica interna das execuções em modo observacional.
+
+Esse tracing:
+
+- não aparece para o usuário;
+- não concede autorização;
+- não decide uma capability;
+- não muda o resultado de negócio;
+- permite relacionar etapas técnicas da mesma execução com mais segurança.
+
+### Próximo estágio
+
+O próximo passo é um **Execution Ledger em shadow mode**.
+
+O objetivo é registrar eventos causais mínimos, por exemplo entrada recebida, execução iniciada, estado persistido, resposta preparada, resposta enviada e falhas observáveis, sempre que essas etapas possam ser comprovadas por uma fonte canônica.
+
+O Ledger deve evitar armazenar texto integral ou payloads privados quando metadados forem suficientes para provar causalidade.
+
+Somente depois dessa fundação observacional Registry e Policy avançam para governança gradual.
+
+## Persona e audiência
+
+A identidade narrativa da Runa é aplicada sobre o resultado real de uma operação. Ela pode alterar tom e linguagem, mas não pode transformar uma falha em sucesso nem esconder limitações importantes.
+
+Usuários comuns e uma audiência administrativa autenticada podem receber níveis diferentes de detalhe. A seleção dessa audiência deve depender de identidade confiável, nunca de um campo arbitrário recebido da conversa.
 
 ## Segurança
 
@@ -116,9 +178,29 @@ A arquitetura pública não documenta:
 - portas expostas em produção;
 - credenciais;
 - nomes e IDs reais de usuários;
-- detalhes de autenticação;
+- mecanismos operacionais detalhados de autenticação;
 - caminhos internos do ambiente;
 - dumps, logs ou payloads reais;
 - topologia detalhada de produção.
 
 Essas informações permanecem fora deste repositório.
+
+## Sequência arquitetural atual
+
+```text
+Recovery e idempotência estáveis
+        ↓
+Tracing observacional
+        ↓
+Execution Ledger shadow
+        ↓
+Capability Registry shadow
+        ↓
+Policy Engine shadow
+        ↓
+Primeira capability read-only governada
+        ↓
+Expansão gradual para memória, voz e novas automações
+```
+
+Essa ordem reduz o risco de introduzir governança sem capacidade suficiente de explicar e comparar o que o sistema fez.
