@@ -19,6 +19,7 @@ A presença de um projeto nesta lista não significa que seu código faça parte
 ## Banco e persistência
 
 - [Supabase](https://github.com/supabase/supabase): PostgreSQL, APIs, autenticação e políticas de acesso.
+- [pgvector](https://github.com/pgvector/pgvector): extensão PostgreSQL escolhida para embeddings e recuperação semântica do Memory V1, preservando o banco existente como fonte canônica.
 
 ## Voz e multimodalidade
 
@@ -37,8 +38,13 @@ A presença de um projeto nesta lista não significa que seu código faça parte
 
 ## Conhecimento e memória
 
-- [Obsidian](https://obsidian.md/): ferramenta considerada para uma camada de conhecimento interligado e memória associativa legível por pessoas.
+- [Obsidian](https://obsidian.md/): camada humana e interligada de conhecimento em Markdown. No Memory V1 ele funciona como projeção navegável, não como banco operacional nem como fonte primária de cada memória atômica.
+- [Mem0](https://github.com/mem0ai/mem0): referência conceitual para extração, retenção e recuperação de memória. Não é a camada canônica escolhida para a Runa.
+
+A arquitetura escolhida está descrita em [`MEMORY_ARCHITECTURE.md`](MEMORY_ARCHITECTURE.md).
 
 ## Critério de adoção
 
 Uma dependência externa deve ser incorporada somente quando trouxer benefício técnico claro. Antes da adoção, devem ser avaliados licença, manutenção, segurança, impacto comercial, portabilidade e risco de dependência excessiva.
+
+Para memória, um banco vetorial dedicado só deve ser reconsiderado se PostgreSQL + pgvector demonstrar limites reais de volume, latência ou filtragem. A especialização de uma ferramenta, sozinha, não é motivo suficiente para aumentar a stack.
