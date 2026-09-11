@@ -22,7 +22,9 @@ O foco atual combina:
 - evolução da persona;
 - novas capacidades recorrentes de forma controlada.
 
-Veja [`docs/STATUS.md`](docs/STATUS.md) para o estado público mais recente.
+A direção do Memory V1 já está definida: PostgreSQL/Supabase como memória canônica, pgvector para recuperação semântica e Obsidian como projeção humana do conhecimento.
+
+Veja [`docs/STATUS.md`](docs/STATUS.md) para o estado público mais recente e [`docs/MEMORY_ARCHITECTURE.md`](docs/MEMORY_ARCHITECTURE.md) para a arquitetura de memória.
 
 ## Capacidades e direções
 
@@ -88,6 +90,14 @@ Campos, linguagem natural, modelos de IA e payloads arbitrários não devem elev
 
 A identidade narrativa da Runa pode mudar tom e linguagem, mas não transforma falha em sucesso nem altera uma decisão de autorização.
 
+### Autorização antes de relevância
+
+Busca textual, embeddings, similaridade semântica e relações de grafo só podem atuar depois que o sistema determinar quais dados o interlocutor está autorizado a consultar.
+
+### Memória semântica não é uma segunda fonte de verdade
+
+Embeddings são índices regeneráveis. A memória canônica permanece estruturada no PostgreSQL, e o Obsidian funciona como visão humana reconstruível do conhecimento.
+
 ### Uma pessoa pode ter vários canais, mas merge não é automático
 
 A futura reconciliação entre múltiplos canais deve exigir prova de posse e política explícita. Nome, e-mail ou outro identificador coincidente não é autorização suficiente por si só.
@@ -101,14 +111,15 @@ O projeto está preparando uma representação própria para obrigações futura
 - **Raspberry Pi / Linux:** infraestrutura principal;
 - **Docker:** isolamento e execução de serviços;
 - **n8n:** orquestração de fluxos e automações;
-- **PostgreSQL / Supabase:** persistência estruturada;
+- **PostgreSQL / Supabase:** persistência estruturada e fonte canônica da memória;
+- **pgvector:** extensão escolhida para embeddings e recuperação semântica do Memory V1;
 - **Baileys:** integração com WhatsApp;
 - **Ollama:** execução de modelos locais;
 - **Whisper:** reconhecimento de fala;
 - **Piper:** síntese de voz local;
-- **Obsidian:** camada planejada de conhecimento interligado e memória associativa.
+- **Obsidian:** projeção humana e grafo navegável do conhecimento.
 
-A composição técnica pode mudar conforme o projeto amadurece.
+A composição técnica pode mudar conforme o projeto amadurece. Bancos vetoriais dedicados só devem ser introduzidos se a stack atual demonstrar limites reais e mensuráveis.
 
 ## Segurança e privacidade
 
@@ -137,6 +148,7 @@ Consulte [`NOTICE.md`](NOTICE.md) para detalhes.
 - [`docs/STATUS.md`](docs/STATUS.md): estado público mais recente;
 - [`docs/VISION.md`](docs/VISION.md): visão de longo prazo;
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitetura pública em alto nível;
+- [`docs/MEMORY_ARCHITECTURE.md`](docs/MEMORY_ARCHITECTURE.md): arquitetura aprovada para memória persistente e recuperação semântica;
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): direção de desenvolvimento;
 - [`docs/REFERENCES.md`](docs/REFERENCES.md): referências técnicas externas.
 
