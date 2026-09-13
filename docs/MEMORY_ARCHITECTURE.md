@@ -1,120 +1,90 @@
 # Arquitetura de memória da Runa
 
-A memória persistente da Runa é planejada como uma combinação de dados estruturados, recuperação semântica, relações entre entidades e uma camada humana de conhecimento.
+A memória persistente da Runa combina dados estruturados, recuperação híbrida, relações entre entidades e uma camada humana de conhecimento.
 
-O objetivo não é armazenar todas as conversas. A Runa deve preservar apenas informações úteis para continuidade, personalização e execução segura, com proprietário, origem, visibilidade, retenção e tratamento de conflitos.
+A **Memory V1 já foi implantada e estabilizada**. O objetivo continua não sendo armazenar todas as conversas, mas preservar informações úteis para continuidade e execução segura, com proprietário, origem, visibilidade, retenção e tratamento de conflitos.
 
-## Arquitetura escolhida
-
-A primeira versão será construída sobre a stack já adotada pelo projeto:
+## Arquitetura atual
 
 ```text
-Runa Runtime e políticas
+Runa Runtime
+        |
+        v
+Capability Registry + Policy
         |
         v
 PostgreSQL / Supabase
         |
         +-- memória persistente e metadados
-        +-- pgvector para embeddings e busca semântica
+        +-- pgvector e ciclo de embeddings
+        |
+        +--> recuperação híbrida autorizada
         |
         +--> Obsidian
-             visão humana e grafo navegável
+             projeção humana reconstruível
 ```
 
 Responsabilidades:
 
 - **PostgreSQL/Supabase:** fonte canônica da memória persistente e dos metadados de segurança;
-- **pgvector:** busca por similaridade semântica dentro do banco já existente;
-- **Runtime e políticas:** controlam o que pode ser salvo, consultado e retornado;
-- **Obsidian:** camada humana e interligada de conhecimento, sem substituir o banco operacional.
+- **Registry e Policy:** definem capabilities e aplicam autorização antes da operação de memória;
+- **pgvector:** base para similaridade semântica dentro do banco já existente;
+- **recuperação híbrida:** combina sinais determinísticos, textuais e semânticos somente depois do filtro de autorização;
+- **Execution Ledger:** registra evidência causal mínima das operações sem transformar rastreabilidade em arquivo de conversas;
+- **Obsidian:** projeção humana e interligada do conhecimento, reconstruível a partir da camada canônica.
 
-## Por que não usar um banco vetorial separado no MVP
+## Segurança antes de relevância
 
-Soluções dedicadas como Qdrant, Pinecone, Chroma, Weaviate ou Milvus podem ser úteis em outras escalas, mas acrescentariam nova infraestrutura, sincronização, backup e operação antes de existir necessidade comprovada.
+A ordem é fixa: **autorização antes de relevância**.
 
-A estratégia da Runa é aproveitar PostgreSQL + pgvector primeiro e reconsiderar um banco vetorial dedicado somente se métricas reais mostrarem limites de volume, latência ou filtragem.
+Busca textual, similaridade vetorial, ranking e relações nunca devem ampliar o conjunto de dados que o interlocutor já está autorizado a consultar.
+
+A primeira versão operacional também trata idempotência, duplicatas, conflitos e supersessão para reduzir efeitos repetidos ou memória contraditória.
+
+## Embeddings são derivados
+
+Embeddings são índices semânticos, não a memória em si.
+
+A memória canônica continua utilizável mesmo sem vetor disponível. A arquitetura permite gerar ou regenerar embeddings de forma assíncrona e versionada. A próxima evolução é amadurecer esse worker e suas métricas antes de escolher otimizações de índice com base em volume e planos de consulta reais.
+
+## Obsidian como projeção
+
+O Obsidian materializa uma representação humana da memória e do conhecimento. O vault prioriza notas consolidadas e relações navegáveis, sem transformar Markdown em um segundo banco operacional.
+
+Conceitualmente, notas podem ser vistas como nós e links como conexões de uma rede de conhecimento. Isso é uma analogia de organização e memória associativa, não uma rede neural de IA.
+
+A projeção possui tratamento para conteúdo obsoleto e links seguros e pode ser reconstruída a partir da fonte canônica.
+
+## Backup e recuperação
+
+Memory V1 entrou em produção somente depois de validações de backup e restore. A estratégia protege a memória canônica e os artefatos necessários para reconstruir as camadas derivadas, mantendo rollback e recuperação como requisitos da arquitetura.
+
+## Por que não usar um banco vetorial separado agora
+
+Soluções dedicadas como Qdrant, Pinecone, Chroma, Weaviate ou Milvus podem ser úteis em outras escalas, mas acrescentariam infraestrutura, sincronização, backup e operação sem limite comprovado na stack atual.
+
+A estratégia permanece PostgreSQL + pgvector primeiro. Um banco vetorial dedicado só deve ser reconsiderado se métricas reais mostrarem limites de volume, latência ou filtragem.
 
 Mem0 continua sendo uma referência conceitual para desenho de memória, não uma fonte canônica do projeto.
 
 ## Memória não substitui fontes de verdade
 
-A memória conecta contexto, mas não deve copiar indiscriminadamente dados mantidos por outros sistemas.
+A memória conecta contexto, mas não copia indiscriminadamente dados mantidos por outros sistemas.
 
-Exemplos:
-
-- identidade e autorização permanecem estruturadas no banco;
+- identidade e autorização permanecem estruturadas;
 - agenda externa continua pertencendo ao sistema de agenda correspondente;
 - código e estado de projetos permanecem nos repositórios canônicos;
 - eventos de execução pertencem à camada de rastreabilidade;
-- memória pode guardar contexto e referências a essas fontes sem substituí-las.
+- memória pode guardar contexto e referências sem substituir essas fontes.
 
-Isso reduz o risco de a assistente lembrar corretamente uma informação que já deixou de ser verdadeira na fonte original.
+## Próximas evoluções
 
-## Recuperação híbrida
-
-A consulta de memória poderá combinar:
-
-- filtros determinísticos de proprietário e visibilidade;
-- busca textual;
-- similaridade vetorial;
-- relações entre entidades;
-- confiança;
-- atualidade;
-- status e supersessão.
-
-A ordem de segurança é fixa:
-
-**autorização antes de relevância.**
-
-Uma busca semanticamente próxima nunca pode expor dados fora do escopo autorizado.
-
-## Embeddings
-
-Embeddings são índices semânticos, não a memória em si.
-
-A memória canônica deve continuar utilizável mesmo que um vetor ainda não exista ou precise ser regenerado. O sistema deve registrar qual modelo e versão produziram cada embedding para permitir reindexação futura.
-
-A disponibilidade de um computador pessoal ou de um modelo local específico não deve ser requisito para a leitura básica da memória.
-
-## Obsidian
-
-O Obsidian será usado como uma representação humana da memória e do conhecimento.
-
-Em vez de criar obrigatoriamente um arquivo para cada fato atômico, o vault deve priorizar notas consolidadas por entidades, como:
-
-```text
-Pessoas/
-Projetos/
-Decisoes/
-Lugares/
-Conhecimento/
-```
-
-Isso permite navegar pelas relações e decisões sem transformar Markdown em um segundo banco operacional.
-
-## Capabilities de memória
-
-A direção arquitetural prevê capacidades separadas:
-
-```text
-memory.read
-memory.propose
-memory.save
-memory.supersede
-```
-
-Um modelo pode sugerir que uma informação parece útil para memória. Persistir de fato continua sujeito às políticas de propriedade, sensibilidade, visibilidade, retenção, duplicata e conflito.
-
-## Sequência de implantação
-
-1. estabilizar os gates do Runtime que antecedem memória;
-2. evoluir o schema de memória para o contrato completo;
-3. implementar escrita e leitura estruturadas;
-4. adicionar pgvector e embeddings;
-5. implementar recuperação híbrida;
-6. criar a projeção Obsidian por entidades;
-7. validar backup e restore;
-8. ampliar gradualmente para novos contextos e projetos.
+1. observar a Memory V1 em uso real;
+2. amadurecer geração assíncrona, retry e versionamento de embeddings;
+3. medir qualidade e latência da recuperação híbrida;
+4. evoluir a projeção Obsidian conforme relações reais de conhecimento aparecerem;
+5. ampliar capabilities de memória somente com políticas e testes correspondentes;
+6. reutilizar a mesma memória em voz e futuros canais.
 
 ## Princípio de evolução
 
