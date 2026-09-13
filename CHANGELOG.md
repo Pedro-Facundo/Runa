@@ -4,16 +4,25 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 
 ## 2026-09
 
+### Memory V1
+
+- primeira versão operacional da memória persistente implantada e estabilizada;
+- PostgreSQL/Supabase consolidado como fonte canônica da memória;
+- Registry e Policy passam a governar operações de memória com autorização determinística;
+- leitura e escrita incorporam idempotência, deduplicação, tratamento de conflitos e supersessão;
+- pgvector incorporado como base para recuperação semântica, mantendo embeddings como dados derivados e regeneráveis;
+- recuperação híbrida preserva a regra de autorização antes de texto, vetor ou ranking;
+- Obsidian passa de direção planejada para projeção humana reconstruível da memória e do conhecimento;
+- backup e restore da camada de memória foram validados antes e depois da implantação;
+- próxima evolução prioriza geração assíncrona e observabilidade de embeddings antes de qualquer infraestrutura vetorial adicional.
+
 ### Rastreabilidade e Runtime
 
 - primeiro estágio observacional do Runtime implantado e estabilizado;
 - execuções passaram a possuir correlação técnica interna para melhorar diagnóstico ponta a ponta;
-- o tracing permanece em modo observacional e não muda autorização, decisão de negócio ou conteúdo exibido ao usuário;
-- Execution Ledger dedicado também foi implantado em `shadow mode`;
-- o Ledger registra somente eventos técnicos comprováveis e metadados mínimos, sem depender do conteúdo integral das mensagens;
-- smoke de implantação confirmou que o Ledger permanece invisível ao usuário e não introduz novas mutações de negócio;
-- tracing e Ledger passam a formar a nova fundação observacional para as próximas trust boundaries, Registry e Policy Engine;
-- Capability Registry e Policy Engine continuam em adoção progressiva, depois da estabilização do baseline observacional.
+- Execution Ledger dedicado registra somente eventos técnicos comprováveis e metadados mínimos, sem depender do conteúdo integral das mensagens;
+- tracing e Ledger formam a fundação observável utilizada também pela Memory V1;
+- Capability Registry e Policy Engine começaram a assumir responsabilidade operacional em uma capability sensível de forma controlada.
 
 ### Identidade e segurança
 
@@ -26,7 +35,7 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 
 - obrigação recorrente e lembrete recorrente passaram a ter direção própria, separando compromisso futuro de gasto realizado e de tarefa comum;
 - Status da Runa evolui para distinguir informação funcional de usuário e diagnóstico técnico de audiência administrativa autenticada;
-- essas frentes continuam em validação privada e não devem ser interpretadas como funcionalidades já liberadas.
+- voz passa a ser uma das próximas grandes frentes após a estabilização da Memory V1, reutilizando o mesmo runtime, identidade, políticas e memória.
 
 ### Reorganização pública
 
@@ -40,11 +49,11 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 
 ### Direção técnica
 
-- memória persistente tratada como combinação de dados estruturados e conhecimento interligado;
-- Obsidian incluído como direção planejada para memória associativa;
+- memória persistente consolidada como combinação de dados estruturados, recuperação híbrida e conhecimento interligado;
+- Obsidian consolidado como projeção humana reconstruível, sem substituir o banco canônico;
 - multimodalidade, voz e casa inteligente mantidas no roadmap de longo prazo;
 - observabilidade, autorização e recuperação continuam como prioridades estruturais;
-- ordem arquitetural atualizada para tracing + Execution Ledger, trust boundaries, Registry/Policy e primeira capability governada antes das expansões mais sensíveis.
+- novas dependências vetoriais só devem ser introduzidas quando métricas reais demonstrarem necessidade.
 
 ### Hardening do núcleo conversacional
 
