@@ -8,9 +8,7 @@ O projeto nasceu com foco em uso pessoal e operação local ou híbrida. A ideia
 
 A Runa está em desenvolvimento ativo.
 
-Dois marcos observacionais do Runtime já foram implantados: correlação técnica estável das execuções e um **Execution Ledger em shadow mode** para registrar eventos técnicos comprováveis com metadados mínimos.
-
-Essas camadas aumentam rastreabilidade e diagnóstico sem governar autorização, decidir ações ou alterar o conteúdo funcional entregue ao usuário.
+A fundação do Runtime já inclui correlação técnica das execuções e um **Execution Ledger** para registrar eventos causais comprováveis com metadados mínimos. Em setembro de 2026, a **Memory V1 foi implantada e estabilizada**, tornando memória persistente uma capacidade operacional da Runa.
 
 O foco atual combina:
 
@@ -18,11 +16,11 @@ O foco atual combina:
 - identidade, autorização e privacidade;
 - rastreabilidade e recuperação;
 - Runtime modular de capabilities;
-- preparação de memória persistente;
+- estabilização e evolução da memória persistente;
 - evolução da persona;
-- novas capacidades recorrentes de forma controlada.
+- preparação de voz e novas capacidades recorrentes de forma controlada.
 
-A direção do Memory V1 já está definida: PostgreSQL/Supabase como memória canônica, pgvector para recuperação semântica e Obsidian como projeção humana do conhecimento.
+Na Memory V1, PostgreSQL/Supabase permanece como memória canônica, pgvector fornece a base para recuperação semântica e Obsidian funciona como projeção humana reconstruível do conhecimento. Registry e Policy controlam operações de memória antes da recuperação por relevância.
 
 Veja [`docs/STATUS.md`](docs/STATUS.md) para o estado público mais recente e [`docs/MEMORY_ARCHITECTURE.md`](docs/MEMORY_ARCHITECTURE.md) para a arquitetura de memória.
 
@@ -32,7 +30,7 @@ Entre as capacidades presentes, planejadas ou em desenvolvimento estão:
 
 - conversação em linguagem natural;
 - agenda, tarefas e lembretes;
-- contexto persistente e memória seletiva;
+- memória persistente seletiva e recuperação híbrida;
 - múltiplos usuários e relações familiares;
 - automações pessoais;
 - modelos de IA locais;
@@ -68,7 +66,7 @@ flowchart TD
     A --> O[Serviços externos opcionais]
 ```
 
-A arquitetura evolui gradualmente. Tracing e Execution Ledger já operam de forma observacional; Capability Registry, Policy Engine e futuras ações governadas entram progressivamente depois de validação e comparação com o comportamento existente.
+A arquitetura evolui gradualmente. Tracing e Execution Ledger formam a fundação observável; Registry e Policy já participam da Memory V1 e sua adoção pode ser ampliada progressivamente para outras capabilities depois de validação.
 
 A documentação pública mostra somente a arquitetura conceitual. Credenciais, identificadores reais, endereços de rede, dados pessoais, topologia de produção e detalhes operacionais permanecem fora deste repositório.
 
@@ -76,7 +74,7 @@ A documentação pública mostra somente a arquitetura conceitual. Credenciais, 
 
 ### Observabilidade antes de governança
 
-Antes de permitir que um novo runtime decida ações reais, a Runa primeiro precisa conseguir acompanhar a execução e comparar resultados com o sistema já validado.
+Antes de permitir que uma nova camada decida ações reais, a Runa primeiro precisa conseguir acompanhar a execução e comparar resultados com o sistema validado.
 
 ### Confirmação não é autorização
 
@@ -112,7 +110,7 @@ O projeto está preparando uma representação própria para obrigações futura
 - **Docker:** isolamento e execução de serviços;
 - **n8n:** orquestração de fluxos e automações;
 - **PostgreSQL / Supabase:** persistência estruturada e fonte canônica da memória;
-- **pgvector:** extensão escolhida para embeddings e recuperação semântica do Memory V1;
+- **pgvector:** extensão utilizada como base para embeddings e recuperação semântica;
 - **Baileys:** integração com WhatsApp;
 - **Ollama:** execução de modelos locais;
 - **Whisper:** reconhecimento de fala;
@@ -148,7 +146,7 @@ Consulte [`NOTICE.md`](NOTICE.md) para detalhes.
 - [`docs/STATUS.md`](docs/STATUS.md): estado público mais recente;
 - [`docs/VISION.md`](docs/VISION.md): visão de longo prazo;
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): arquitetura pública em alto nível;
-- [`docs/MEMORY_ARCHITECTURE.md`](docs/MEMORY_ARCHITECTURE.md): arquitetura aprovada para memória persistente e recuperação semântica;
+- [`docs/MEMORY_ARCHITECTURE.md`](docs/MEMORY_ARCHITECTURE.md): arquitetura da memória persistente e recuperação semântica;
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): direção de desenvolvimento;
 - [`docs/REFERENCES.md`](docs/REFERENCES.md): referências técnicas externas.
 
