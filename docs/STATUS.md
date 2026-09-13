@@ -1,6 +1,6 @@
 # Estado atual da Runa
 
-Atualizado em 10/09/2026.
+Atualizado em 13/09/2026.
 
 Esta página resume apenas marcos que podem ser divulgados publicamente. Detalhes operacionais, versões internas, identificadores, topologia, credenciais e dados reais permanecem no ambiente privado.
 
@@ -12,15 +12,11 @@ A Runa já possui uma base validada de persistência, mensageria, recuperação,
 
 ## Rastreabilidade do Runtime
 
-**Estado:** tracing e Execution Ledger observacional implantados.
+**Estado:** tracing e Execution Ledger implantados, com uso ampliado pela Memory V1.
 
-A Runa passou a atribuir uma correlação técnica estável às execuções para permitir diagnóstico ponta a ponta sem mudar o comportamento funcional percebido pelo usuário.
+A Runa atribui correlação técnica estável às execuções para permitir diagnóstico ponta a ponta sem depender do conteúdo integral das mensagens. O Execution Ledger registra eventos causais mínimos e comprováveis, preservando a separação entre rastreabilidade e conteúdo privado.
 
-Além do tracing, o runtime agora possui um Execution Ledger dedicado em `shadow mode`. Ele registra somente eventos técnicos comprováveis e metadados mínimos, permitindo reconstruir partes do ciclo de uma execução sem depender do conteúdo integral das mensagens.
-
-Essas camadas permanecem observacionais. Elas não concedem autorização, não decidem ações, não substituem idempotência e não aparecem nas mensagens do usuário.
-
-A próxima etapa é estabilizar esse baseline pós-implantação e usá-lo como fundação para trust boundaries, Registry e Policy Engine.
+A Memory V1 passou a utilizar essa fundação junto com Registry e Policy para operações de memória controladas.
 
 ## Núcleo conversacional
 
@@ -42,18 +38,27 @@ A direção atual reforça que:
 
 Também está em design uma futura reconciliação de múltiplos canais pertencentes à mesma pessoa, sempre com prova de posse e sem merge automático por nome ou identificador coincidente.
 
+## Memória persistente
+
+**Estado:** Memory V1 implantada e estabilizada.
+
+A primeira versão operacional da memória persistente entrou em produção com uma arquitetura híbrida e reversível:
+
+- PostgreSQL/Supabase permanece como fonte canônica;
+- operações de memória passam por Registry e Policy com autorização determinística;
+- escrita e leitura possuem idempotência, tratamento de duplicatas, conflitos e supersessão;
+- pgvector está disponível como base para recuperação semântica, sem tornar embeddings obrigatórios para leitura básica;
+- recuperação híbrida aplica autorização antes de texto, similaridade ou ranking;
+- Obsidian funciona como projeção humana reconstruível do conhecimento, e não como segundo banco operacional;
+- backup e restore da camada de memória foram validados antes e depois da implantação.
+
+A próxima evolução técnica é amadurecer a geração assíncrona de embeddings e observar volume e consultas reais antes de introduzir índices ou infraestrutura vetorial adicional.
+
 ## Obrigações recorrentes
 
 **Estado:** em desenvolvimento privado, ainda não disponível como funcionalidade concluída.
 
-O projeto está separando explicitamente:
-
-- obrigação futura;
-- lembrete recorrente;
-- gasto realizado;
-- tarefa comum.
-
-Essa distinção evita registrar uma dívida futura como gasto já ocorrido ou transformar qualquer compromisso financeiro em tarefa genérica.
+O projeto está separando explicitamente obrigação futura, lembrete recorrente, gasto realizado e tarefa comum para evitar efeitos incorretos no financeiro e na agenda.
 
 ## Persona e audiência
 
@@ -63,18 +68,19 @@ A Runa mantém a regra de que o resultado real de uma operação existe antes da
 
 Também está em desenvolvimento a separação entre informação funcional para usuários comuns e diagnóstico técnico para uma audiência administrativa autenticada.
 
-## Memória e voz
+## Voz e multimodalidade
 
-Memória persistente seletiva, com uma camada de conhecimento interligado, continua como grande frente funcional futura. Depois do MVP de memória, voz deve usar o mesmo runtime, identidade e políticas das mensagens de texto.
+**Estado:** planejado para a sequência pós-Memory V1.
+
+Voz deve reutilizar o mesmo runtime, identidade, políticas e memória das mensagens de texto. Imagens, documentos e outras entradas multimodais entram progressivamente depois dessa fundação.
 
 ## Próxima sequência pública
 
-1. estabilizar o baseline pós-Execution Ledger e ampliar eventos somente quando houver fonte técnica comprovável;
-2. reforçar trust boundaries e identidade/autorização;
-3. introduzir Capability Registry e Policy Engine de forma gradual;
-4. validar uma primeira capability read-only governada;
-5. avançar memória persistente + conhecimento interligado;
-6. iniciar voz com transcrição usando o mesmo núcleo;
-7. expandir capacidades recorrentes, multimodalidade e automações proativas com segurança.
+1. estabilizar e observar a Memory V1 em uso real;
+2. amadurecer embeddings assíncronos e recuperação semântica sem criar dependência desnecessária;
+3. continuar o hardening de identidade, autorização e trust boundaries;
+4. ampliar gradualmente o uso de capabilities governadas;
+5. iniciar voz com transcrição usando o mesmo núcleo e a mesma memória;
+6. expandir capacidades recorrentes, multimodalidade e automações proativas com segurança.
 
-Consulte também [`ROADMAP.md`](ROADMAP.md) e [`ARCHITECTURE.md`](ARCHITECTURE.md).
+Consulte também [`ROADMAP.md`](ROADMAP.md), [`MEMORY_ARCHITECTURE.md`](MEMORY_ARCHITECTURE.md) e [`ARCHITECTURE.md`](ARCHITECTURE.md).
