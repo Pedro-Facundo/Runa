@@ -20,6 +20,8 @@ A Runa possui mecanismos para persistir mensagens, evitar duplicidades, retomar 
 
 Prioridades incluem interpretação de linguagem natural, agenda, tarefas, lembretes, confirmações, continuidade de contexto, solicitações compostas e respostas naturais após automações.
 
+Uma direção arquitetural em validação é reduzir a dependência de classificação por modelo de linguagem para comandos operacionais explícitos. A intenção é resolver deterministicamente operações reconhecíveis, com contratos e autorização próprios, e falhar de forma segura para conversa ou clarificação quando não houver evidência suficiente para produzir efeitos. Modelos de IA permanecem desacoplados dessa camada e podem ser usados onde raciocínio e composição conversacional realmente agregam valor.
+
 ## Runtime modular
 
 **Estado:** fundação observável ativa e primeira aplicação governada em produção.
@@ -131,10 +133,11 @@ A Runa poderá usar históricos e padrões para antecipar necessidades e sugerir
 1. estabilizar e observar a Memory V1 em produção;
 2. amadurecer embeddings assíncronos e recuperação híbrida;
 3. continuar hardening de identidade, autorização e trust boundaries;
-4. ampliar gradualmente capabilities governadas;
-5. iniciar voz reutilizando Runtime, Policy e Memory V1;
-6. expandir obrigações recorrentes, multimodalidade e automações proativas de forma gradual;
-7. avançar integrações de ambiente e casa inteligente quando os controles de identidade e autorização estiverem maduros.
+4. reduzir classificação operacional dependente de LLM onde houver roteamento determinístico seguro e validado;
+5. ampliar gradualmente capabilities governadas;
+6. iniciar voz reutilizando Runtime, Policy e Memory V1;
+7. expandir obrigações recorrentes, multimodalidade e automações proativas de forma gradual;
+8. avançar integrações de ambiente e casa inteligente quando os controles de identidade e autorização estiverem maduros.
 
 Algumas frentes podem avançar em paralelo quando forem independentes e tiverem testes, rollback e gates próprios.
 
