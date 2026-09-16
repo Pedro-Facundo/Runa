@@ -16,11 +16,13 @@ A Runa possui mecanismos para persistir mensagens, evitar duplicidades, retomar 
 
 ## Núcleo conversacional
 
-**Estado:** em desenvolvimento.
+**Estado:** em desenvolvimento, com roteamento determinístico já aplicado a operações reconhecíveis.
 
 Prioridades incluem interpretação de linguagem natural, agenda, tarefas, lembretes, confirmações, continuidade de contexto, solicitações compostas e respostas naturais após automações.
 
-Uma direção arquitetural em validação é reduzir a dependência de classificação por modelo de linguagem para comandos operacionais explícitos. A intenção é resolver deterministicamente operações reconhecíveis, com contratos e autorização próprios, e falhar de forma segura para conversa ou clarificação quando não houver evidência suficiente para produzir efeitos. Modelos de IA permanecem desacoplados dessa camada e podem ser usados onde raciocínio e composição conversacional realmente agregam valor.
+A arquitetura reduz a dependência de classificação por modelo de linguagem para comandos operacionais explícitos. Operações reconhecíveis podem ser resolvidas deterministicamente, com contratos e autorização próprios, enquanto casos sem evidência suficiente devem falhar de forma segura para conversa ou clarificação. Modelos de IA permanecem desacoplados dessa camada e são usados onde interpretação, raciocínio e composição conversacional agregam valor.
+
+O grounding das respostas também passa a ser uma prioridade explícita: recomendações devem permanecer apoiadas nos fatos e critérios fornecidos pelo usuário, sem acrescentar propriedades ou preferências não sustentadas. Critério insuficiente deve levar à solicitação de contexto adicional, não à fabricação de justificativas.
 
 ## Runtime modular
 
@@ -130,10 +132,10 @@ A Runa poderá usar históricos e padrões para antecipar necessidades e sugerir
 
 ## Sequência atual em alto nível
 
-1. estabilizar e observar a Memory V1 em produção;
-2. amadurecer embeddings assíncronos e recuperação híbrida;
-3. continuar hardening de identidade, autorização e trust boundaries;
-4. reduzir classificação operacional dependente de LLM onde houver roteamento determinístico seguro e validado;
+1. observar e consolidar o roteamento determinístico e o grounding das respostas;
+2. estabilizar e observar a Memory V1 em produção;
+3. amadurecer embeddings assíncronos e recuperação híbrida;
+4. continuar hardening de identidade, autorização e trust boundaries;
 5. ampliar gradualmente capabilities governadas;
 6. iniciar voz reutilizando Runtime, Policy e Memory V1;
 7. expandir obrigações recorrentes, multimodalidade e automações proativas de forma gradual;
