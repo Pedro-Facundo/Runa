@@ -4,6 +4,15 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 
 ## 2026-09
 
+### Núcleo conversacional e grounding
+
+- roteamento de operações reconhecíveis avançou para uma abordagem predominantemente determinística, reduzindo dependência de classificação por modelo de linguagem no caminho operacional;
+- modelo conversacional permanece desacoplado do roteamento e concentrado onde interpretação, raciocínio ou composição agregam valor;
+- recomendações passaram por hardening de grounding para permanecerem apoiadas nos critérios e fatos fornecidos pelo usuário;
+- respostas não devem acrescentar atributos, preferências ou justificativas não sustentadas apenas para tornar a recomendação mais completa;
+- quando os dados fornecidos não forem suficientes para decidir, a direção é solicitar contexto adicional em vez de preencher lacunas por suposição;
+- gates de regressão e rollback continuam sendo requisito para mudanças no comportamento conversacional.
+
 ### Memory V1
 
 - primeira versão operacional da memória persistente implantada e estabilizada;
