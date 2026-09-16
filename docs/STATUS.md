@@ -1,6 +1,6 @@
 # Estado atual da Runa
 
-Atualizado em 13/09/2026.
+Atualizado em 16/09/2026.
 
 Esta página resume apenas marcos que podem ser divulgados publicamente. Detalhes operacionais, versões internas, identificadores, topologia, credenciais e dados reais permanecem no ambiente privado.
 
@@ -23,6 +23,10 @@ A Memory V1 passou a utilizar essa fundação junto com Registry e Policy para o
 **Estado:** funcional em várias capacidades, ainda em evolução.
 
 Agenda, tarefas, lembretes e confirmações continuam recebendo melhorias de contexto, confiabilidade, idempotência e testes de regressão.
+
+O roteamento de operações reconhecíveis avançou para uma abordagem predominantemente determinística, reduzindo dependência de classificação por modelo de linguagem no caminho operacional. O modelo conversacional permanece desacoplado dessa decisão e é usado onde interpretação, raciocínio ou composição de resposta agregam valor.
+
+Também foi reforçado o grounding das recomendações: quando a decisão pode ser tomada pelo critério explicitamente fornecido pelo usuário, a resposta deve permanecer ancorada nesse critério e não inventar atributos, preferências ou justificativas ausentes. Quando faltarem dados suficientes, a direção é pedir informação em vez de preencher lacunas por suposição.
 
 ## Identidade e segurança
 
@@ -76,11 +80,12 @@ Voz deve reutilizar o mesmo runtime, identidade, políticas e memória das mensa
 
 ## Próxima sequência pública
 
-1. estabilizar e observar a Memory V1 em uso real;
-2. amadurecer embeddings assíncronos e recuperação semântica sem criar dependência desnecessária;
-3. continuar o hardening de identidade, autorização e trust boundaries;
-4. ampliar gradualmente o uso de capabilities governadas;
-5. iniciar voz com transcrição usando o mesmo núcleo e a mesma memória;
-6. expandir capacidades recorrentes, multimodalidade e automações proativas com segurança.
+1. observar e consolidar o roteamento determinístico e o grounding do núcleo conversacional;
+2. estabilizar e observar a Memory V1 em uso real;
+3. amadurecer embeddings assíncronos e recuperação semântica sem criar dependência desnecessária;
+4. continuar o hardening de identidade, autorização e trust boundaries;
+5. ampliar gradualmente o uso de capabilities governadas;
+6. iniciar voz com transcrição usando o mesmo núcleo e a mesma memória;
+7. expandir capacidades recorrentes, multimodalidade e automações proativas com segurança.
 
 Consulte também [`ROADMAP.md`](ROADMAP.md), [`MEMORY_ARCHITECTURE.md`](MEMORY_ARCHITECTURE.md) e [`ARCHITECTURE.md`](ARCHITECTURE.md).
