@@ -43,6 +43,8 @@ Este arquivo registra mudanças relevantes na documentação pública e marcos d
 ### Novas capacidades em preparação
 
 - obrigação recorrente e lembrete recorrente passaram a ter direção própria, separando compromisso futuro de gasto realizado e de tarefa comum;
+- respostas de obrigações recorrentes foram humanizadas para apresentar antecedência e datas em linguagem natural e no contexto temporal adequado ao usuário, sem alterar regras de negócio, recorrência ou persistência;
+- falhas de formatação desse retorno devem degradar de forma segura, sem inventar horários nem expor representações técnicas desnecessárias;
 - Status da Runa evolui para distinguir informação funcional de usuário e diagnóstico técnico de audiência administrativa autenticada;
 - voz passa a ser uma das próximas grandes frentes após a estabilização da Memory V1, reutilizando o mesmo runtime, identidade, políticas e memória.
 
