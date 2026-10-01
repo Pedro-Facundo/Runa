@@ -77,6 +77,71 @@ A memória conecta contexto, mas não copia indiscriminadamente dados mantidos p
 - eventos de execução pertencem à camada de rastreabilidade;
 - memória pode guardar contexto e referências sem substituir essas fontes.
 
+## Fronteira com Accio Knowledge
+
+Accio Knowledge é uma capability futura separada da Memory V1.
+
+A distinção é intencional:
+
+```text
+Runa Memory
+  preferências
+  relações
+  decisões
+  fatos salvos
+  contexto de continuidade
+
+Accio Knowledge
+  documentos
+  manuais
+  bulas
+  editais
+  contratos
+  documentação técnica
+  outras fontes documentais autorizadas
+```
+
+A Runa poderá consumir Accio Knowledge por capability autorizada, sem fundir as duas fontes.
+
+Fluxo alvo:
+
+```text
+pergunta
+  |
+  v
+Knowledge é necessário?
+  |              |
+ não            sim
+  |              |
+fluxo normal     v
+          resolver identidade
+                 |
+          aplicar autorização
+                 |
+              retrieval
+                 |
+          relevância suficiente?
+             |             |
+            não           sim
+             |             |
+       não inventar     contexto
+                           |
+                      resposta + fontes
+```
+
+Regras:
+
+- autorização continua anterior a relevância e ranking;
+- retrieval documental não deve ocorrer em toda conversa por padrão;
+- conteúdo recuperado não vira memória persistente automaticamente;
+- uma decisão explícita de salvar algo na memória segue o contrato normal de Memory V1;
+- respostas baseadas em documentos devem preservar provenance suficiente para citar a fonte;
+- documento obsoleto, inativo ou substituído não deve competir silenciosamente com a versão vigente;
+- PostgreSQL + pgvector permanece a estratégia inicial enquanto atender aos requisitos medidos;
+- um banco vetorial separado só deve ser considerado por limite real, não por preferência.
+
+A direção transversal está registrada em `Pedro-Facundo/Accio-Infra/docs/ACCIO_KNOWLEDGE_NOMAD_LEARNINGS_2026-10-01.md`.
+
 ## Próximas evoluções
 
 1. observar a Memory V1 em uso real;
@@ -84,7 +149,8 @@ A memória conecta contexto, mas não copia indiscriminadamente dados mantidos p
 3. medir qualidade e latência da recuperação híbrida;
 4. evoluir a projeção Obsidian conforme relações reais de conhecimento aparecerem;
 5. ampliar capabilities de memória somente com políticas e testes correspondentes;
-6. reutilizar a mesma memória em voz e futuros canais.
+6. reutilizar a mesma memória em voz e futuros canais;
+7. integrar Accio Knowledge somente quando existir capability autorizada e avaliada, sem transformar retrieval documental em Memory V1.
 
 ## Princípio de evolução
 
